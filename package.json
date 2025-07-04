@@ -1,0 +1,31 @@
+{
+  "name": "n8n-nodes-gemini-image",
+  "version": "0.1.0",
+  "description": "n8n community node to generate images using Google Gemini",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "nodes": [
+      "dist/nodes/GeminiImageGenerate/GeminiImageGenerate.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "n8n-workflow": "^1.82.0",
+    "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
