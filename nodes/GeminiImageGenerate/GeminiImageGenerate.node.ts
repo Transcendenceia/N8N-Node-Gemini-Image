@@ -1,11 +1,11 @@
-import {
+import { Buffer } from 'buffer';
+import type {
   IExecuteFunctions,
-} from 'n8n-core';
-import {
   INodeExecutionData,
   INodeType,
   INodeTypeDescription,
 } from 'n8n-workflow';
+import { NodeConnectionType } from 'n8n-workflow';
 
 export class GeminiImageGenerate implements INodeType {
   description: INodeTypeDescription = {
@@ -19,11 +19,11 @@ export class GeminiImageGenerate implements INodeType {
       name: 'Gemini Image Generate',
       color: '#00AAEE',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: [NodeConnectionType.Main],
+    outputs: [NodeConnectionType.Main],
     credentials: [
       {
-        name: 'geminiPalmApi',
+        name: 'googlePalmApi',
         required: true,
       },
     ],
@@ -98,8 +98,9 @@ export class GeminiImageGenerate implements INodeType {
     const items = this.getInputData();
     const returnItems: INodeExecutionData[] = [];
 
-    const credentials = await this.getCredentials('geminiPalmApi');
+    const credentials = await this.getCredentials('googlePalmApi');
     const apiKey = credentials.apiKey as string;
+    const host = credentials.host as string;
 
     for (let i = 0; i < items.length; i++) {
       const prompt = this.getNodeParameter('prompt', i) as string;
@@ -128,7 +129,7 @@ export class GeminiImageGenerate implements INodeType {
 
       const options = {
         method: 'POST' as const,
-        url: `https://generativelanguage.googleapis.com/v1beta/${modelId}:predict`,
+        url: `${host}/v1beta/${modelId}:predict`,
         qs,
         body,
         json: true,
